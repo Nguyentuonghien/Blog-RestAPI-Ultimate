@@ -4,20 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import lombok.Data;
 
 @Data
 public class PostRequest {
 
-    @NotBlank
-    @Size(min = 10)
     private String title;
 
-    @NotBlank
-    @Size(min = 50)
     private String body;
 
     private List<String> tags;

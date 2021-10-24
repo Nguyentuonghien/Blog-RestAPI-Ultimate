@@ -15,7 +15,11 @@ import java.io.Serializable;
 })
 public class ApiResponse implements Serializable {
 
+    @JsonIgnore
 	private static final long serialVersionUID = -143612068051553023L;
+
+    @JsonIgnore
+    private HttpStatus status;
 
 	@JsonProperty("success")
     private Boolean success;
@@ -23,11 +27,7 @@ public class ApiResponse implements Serializable {
     @JsonProperty("message")
     private String message;
 
-    @JsonIgnore
-    private HttpStatus status;
-
     public ApiResponse() {
-
     }
 
     public ApiResponse(Boolean success, String message) {

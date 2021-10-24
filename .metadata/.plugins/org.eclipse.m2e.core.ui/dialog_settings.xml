@@ -2,8 +2,8 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
-			<item value="F:\SpringBoot_RestAPI_Blog\springboot-blog-restapi-application"/>
 			<item value="F:\SpringBoot_RestAPI_Blog\springboot-blog-restapi-ultimate"/>
+			<item value="F:\SpringBoot_RestAPI_Blog\springboot-blog-restapi-application"/>
 		</list>
 		<list key="projectNameTemplate">
 			<item value="[artifactId]"/>

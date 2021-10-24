@@ -1,5 +1,6 @@
 package com.springboot.restapi.blog.exception;
 
+import com.springboot.restapi.blog.payload.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -12,9 +13,10 @@ public class ResourceNotFoundException extends RuntimeException {
     private String fieldName;
     private Object fieldValue;
 
+    private transient ApiResponse apiResponse;
+
     public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
-        // co dang: "Post not found with id : 1"
-        super(String.format("%s not found with %s : '%s'", resourceName, fieldName, fieldValue));
+        super();
         this.resourceName = resourceName;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
@@ -30,6 +32,16 @@ public class ResourceNotFoundException extends RuntimeException {
 
     public Object getFieldValue() {
         return fieldValue;
+    }
+
+    public ApiResponse getApiResponse() {
+        return apiResponse;
+    }
+
+    private void setApiResponse() {
+        // co dang: "Post not found with id : 1"
+        String message = String.format("%s not found with %s: '%s'", resourceName, fieldName, fieldValue);
+        apiResponse = new ApiResponse(Boolean.FALSE, message);
     }
 
 }
