@@ -1,9 +1,5 @@
 package com.springboot.restapi.blog.service.impl;
 
-import com.springboot.restapi.blog.exception.BlogApiException;
-import com.springboot.restapi.blog.exception.ResourceNotFoundException;
-import com.springboot.restapi.blog.model.Post;
-import com.springboot.restapi.blog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,15 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.springboot.restapi.blog.exception.BlogApiException;
+import com.springboot.restapi.blog.exception.ResourceNotFoundException;
 import com.springboot.restapi.blog.model.Comment;
+import com.springboot.restapi.blog.model.Post;
 import com.springboot.restapi.blog.payload.ApiResponse;
 import com.springboot.restapi.blog.payload.CommentRequest;
 import com.springboot.restapi.blog.payload.PagedResponse;
 import com.springboot.restapi.blog.repository.CommentRepository;
+import com.springboot.restapi.blog.repository.PostRepository;
 import com.springboot.restapi.blog.service.CommentService;
 import com.springboot.restapi.blog.utils.AppUtils;
-
-import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -35,7 +33,8 @@ public class CommentServiceImpl implements CommentService {
         AppUtils.validatePageNumberAndSize(pageNum, pageSize);
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         Page<Comment> page = commentRepository.findByPostId(postId, pageable);
-        PagedResponse pagedResponse = new PagedResponse();
+        
+        PagedResponse<Comment> pagedResponse = new PagedResponse<>();   
         pagedResponse.setContent(page.getContent());
         pagedResponse.setTotalPages(page.getTotalPages());
         pagedResponse.setTotalElements(page.getTotalElements());
@@ -100,3 +99,6 @@ public class CommentServiceImpl implements CommentService {
 
 
 }
+
+
+

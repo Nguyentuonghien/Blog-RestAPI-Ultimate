@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException {
 
-    private ApiResponse apiResponse;
+	private static final long serialVersionUID = 1L;
+	
+	private ApiResponse apiResponse;
 
     public BadRequestException(ApiResponse apiResponse) {
         this.apiResponse = apiResponse;

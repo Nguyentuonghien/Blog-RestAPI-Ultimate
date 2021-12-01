@@ -7,9 +7,13 @@ import com.springboot.restapi.blog.payload.PostRequest;
 import com.springboot.restapi.blog.payload.PostResponse;
 import com.springboot.restapi.blog.service.PostService;
 import com.springboot.restapi.blog.utils.AppConstants;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,8 +23,9 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
-    public ResponseEntity<PostResponse> addPost(@RequestBody PostRequest postRequest) {
+    public ResponseEntity<PostResponse> addPost(@Valid @RequestBody PostRequest postRequest) {
         PostResponse postResponse = postService.createPost(postRequest);
         return new ResponseEntity<>(postResponse, HttpStatus.CREATED);
     }
@@ -41,12 +46,14 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@RequestBody PostRequest postRequest, @PathVariable("id") Long id) {
+    public ResponseEntity<Post> updatePost(@Valid @RequestBody PostRequest postRequest, @PathVariable("id") Long id) {
         Post post = postService.updatePost(postRequest, id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deletePost(@PathVariable("id") Long id) {
         ApiResponse apiResponse = postService.deletePost(id);
@@ -54,3 +61,8 @@ public class PostController {
     }
 
 }
+
+
+
+
+

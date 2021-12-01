@@ -6,9 +6,13 @@ import com.springboot.restapi.blog.payload.CommentRequest;
 import com.springboot.restapi.blog.payload.PagedResponse;
 import com.springboot.restapi.blog.service.CommentService;
 import com.springboot.restapi.blog.utils.AppConstants;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +23,8 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<Comment> addComment(@RequestBody CommentRequest commentRequest,
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Comment> addComment(@Valid @RequestBody CommentRequest commentRequest,
                                               @PathVariable("postId") Long postId) {
         Comment comment = commentService.addComment(commentRequest, postId);
         return new ResponseEntity<>(comment, HttpStatus.CREATED);
@@ -42,7 +47,8 @@ public class CommentController {
     }
 
     @PutMapping("/posts/{postId}/comments/{id}")
-    public ResponseEntity<Comment> updateComment(@RequestBody CommentRequest commentRequest,
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Comment> updateComment(@Valid @RequestBody CommentRequest commentRequest,
                                                  @PathVariable("postId") Long postId,
                                                  @PathVariable("id") Long id) {
         Comment comment = commentService.updateComment(commentRequest, postId, id);
@@ -50,6 +56,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/posts/{postId}/comments/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> deleteComment(@PathVariable("postId") Long postId,
                                                      @PathVariable("id") Long id) {
         ApiResponse apiResponse = commentService.deleteComment(postId, id);
@@ -58,3 +65,6 @@ public class CommentController {
     }
 
 }
+
+
+

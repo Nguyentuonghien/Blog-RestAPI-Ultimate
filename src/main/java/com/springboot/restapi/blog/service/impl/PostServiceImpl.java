@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
 
         // neu page khong co phan tu nao -> se tao 1 collection rong
         List<Post> content = posts.getNumberOfElements() == 0 ? Collections.emptyList() : posts.getContent();
-        PagedResponse pagedResponse = new PagedResponse();
+        PagedResponse<Post> pagedResponse = new PagedResponse<>();
         pagedResponse.setContent(content);
         pagedResponse.setPageNumber(posts.getNumber());
         pagedResponse.setPageSize(posts.getSize());
